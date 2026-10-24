@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Thức Tỉnh Đam Mê Công Nghệ | Blog Cá Nhân Truyền Cảm Hứng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FAF7F2',
+                        parchment: '#F3EDE2',
+                        gold: {
+                            400: '#FBBF24',
+                            500: '#D97706',
+                            600: '#B45309',
+                        },
+                        rosewarm: '#E11D48',
+                        techdark: '#0B1120',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --font-scale: 1;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: calc(1rem * var(--font-scale));
+            overflow-x: hidden;
+        }
+        .story-paragraph {
+            font-size: calc(1.125rem * var(--font-scale));
+            line-height: 1.9;
+        }
+        .drop-cap::first-letter {
+            float: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 4.2rem;
+            line-height: 0.85;
+            padding-top: 4px;
+            padding-right: 14px;
+            padding-bottom: 4px;
+            font-weight: 700;
+            color: #D97706;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #D97706 0%, #E11D48 50%, #4F46E5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(135deg, #FBBF24 0%, #FB7185 50%, #818CF8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(217, 119, 6, 0.15);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+        }
+        .timeline-line {
+            background: linear-gradient(to bottom, #D97706, #E11D48, #4F46E5, #10B981);
+        }
+        .photo-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .photo-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(217, 119, 6, 0.25);
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #0B1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D97706;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-cream text-slate-800 dark:bg-techdark dark:text-slate-100 transition-colors duration-500">
+
+    <!-- Top Smart Photo Sync Banner (Helps load a1.jpg - a10.jpg if opened in sandbox or exports standalone file) -->
+    <div id="photoSyncBanner" class="bg-gradient-to-r from-amber-900 via-rose-900 to-indigo-950 text-amber-50 px-4 py-2.5 text-xs sm:text-sm border-b border-amber-500/30 relative z-50">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 font-bold">✨</span>
+                <span id="syncStatusText">Trang web đã được kết nối với 10 bức ảnh kỷ niệm (<strong>a1.jpg → a10.jpg</strong>). Nếu xem trên trình duyệt web chưa hiện ảnh, hãy bấm nút bên cạnh để nạp 10 ảnh vào trang!</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <label for="bulkImageInput" class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold transition shadow-sm text-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Chọn 10 ảnh (a1 - a10) từ máy</span>
+                </label>
+                <input type="file" id="bulkImageInput" multiple accept="image/*" class="hidden" onchange="handleBulkImageUpload(event)">
+                <button id="exportStandaloneBtn" onclick="exportStandaloneHTML()" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold transition shadow-sm text-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <span>Tải file HTML đã nhúng sẵn ảnh</span>
+                </button>
+                <button onclick="document.getElementById('photoSyncBanner').style.display='none'" class="text-amber-200/70 hover:text-white p-1" title="Ẩn thanh thông báo">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 glass-card shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#top" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500 via-rose-500 to-indigo-600 flex items-center justify-center text-white font-serif font-bold text-xl shadow-md group-hover:scale-105 transition">
+                    AI
+                </div>
+                <div>
+                    <span class="block font-serif font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">Hành Trình Thức Tỉnh</span>
+                    <span class="block text-xs text-amber-700 dark:text-amber-400 font-medium">Từ Những Con Số Đến Trái Tim Công Nghệ</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-700 dark:text-slate-300">
+                <a href="#cau-chuyen" class="hover:text-amber-600 dark:hover:text-amber-400 transition">5 Chương Cuộc Đời</a>
+                <a href="#sang-tac-ai" class="hover:text-amber-600 dark:hover:text-amber-400 transition font-semibold text-rose-600 dark:text-rose-400">🎵 Nhạc & Video AI</a>
+                <a href="#triet-ly-ai" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Triết Lý Học AI</a>
+                <a href="#long-biet-on" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Tri Ân Người Thầy</a>
+                <a href="#thu-vien-anh" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Hành Trình Ký Ức</a>
+                <a href="#goc-chia-se" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Góc Chia Sẻ</a>
+                <a href="#ket-noi" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Kết Nối</a>
+            </nav>
+
+            <!-- Utility Controls: Music, Font Size, Dark Mode -->
+            <div class="flex items-center gap-2">
+                <!-- Ambient Music Button -->
+                <button id="musicToggleBtn" onclick="toggleAmbientMusic()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-100/80 dark:bg-slate-800 text-amber-900 dark:text-amber-300 hover:bg-amber-200/80 text-xs font-medium transition" title="Bật/Tắt nhạc nền Piano truyền cảm hứng">
+                    <span id="musicIcon">🎵</span>
+                    <span id="musicLabel" class="hidden sm:inline">Nhạc cảm hứng</span>
+                </button>
+
+                <!-- Font Size Controls -->
+                <div class="hidden sm:flex items-center bg-slate-200/70 dark:bg-slate-800 rounded-xl p-1 text-xs font-semibold">
+                    <button onclick="adjustFontSize(-0.08)" class="px-2 py-1 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition" title="Thu nhỏ chữ">A-</button>
+                    <button onclick="adjustFontSize(0)" class="px-2 py-1 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition" title="Cỡ chữ mặc định">A</button>
+                    <button onclick="adjustFontSize(0.1)" class="px-2 py-1 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition" title="Phóng to chữ">A+</button>
+                </div>
+
+                <!-- Dark Mode Button -->
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:scale-105 transition" title="Đổi giao diện Sáng / Tối">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="top" class="relative overflow-hidden pt-10 pb-20 lg:pt-16 lg:pb-28">
+        <!-- Decorative Ambient Glows -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-amber-400/20 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/3 -right-24 w-96 h-96 bg-rose-400/15 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Column: Inspiring Introduction -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs sm:text-sm font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                        <span>Tự Truyện Truyền Cảm Hứng • Đánh Thức Đam Mê Ở Tuổi Trung Niên</span>
+                    </div>
+
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-slate-900 dark:text-white">
+                        Từ Cô Bé Nhút Nhát Sợ Môn Văn Đến Hành Trình <span class="gradient-text">Thức Tỉnh Cùng AI</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                        Đi qua hơn <strong>20 năm</strong> đứng trên bục giảng khối ngành Kinh tế, tôi chưa bao giờ nghĩ rằng ở ngưỡng cửa tuổi trung niên, ngọn lửa đam mê <strong>Công nghệ thông tin</strong> thuở thiếu thời lại bùng cháy rực rỡ đến thế. Học AI không chỉ là học một công cụ — mà là hành trình <em>quay trở về bên trong, hiểu mình, hiểu người, yêu thương và biết ơn tất cả</em>.
+                    </p>
+
+                    <!-- Signature Quote Box -->
+                    <blockquote class="p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-rose-500/5 to-transparent border-l-4 border-amber-500 italic text-slate-700 dark:text-slate-200 font-serif text-lg">
+                        “Không cần giỏi mới chia sẻ, mà chia sẻ rồi mới giỏi. Khi tâm đủ rộng và lòng biết ơn đủ đầy, những người thầy lớn sẽ xuất hiện và dẫn lối.”
+                    </blockquote>
+
+                    <!-- Hero Action Buttons -->
+                    <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                        <a href="#cau-chuyen" class="inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-amber-600 via-rose-600 to-indigo-600 text-white font-semibold shadow-lg shadow-amber-600/25 hover:scale-[1.02] transition">
+                            <span>Đọc Câu Chuyện Đời Tôi</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                        </a>
+                        <a href="#sang-tac-ai" class="inline-flex items-center gap-2 px-6 py-4 rounded-2xl glass-card font-semibold text-rose-600 dark:text-rose-400 border-rose-500/30 hover:border-rose-500 transition">
+                            <span>🎬 Nghe Bài Hát & Xem Video Tôi Tự Tạo</span>
+                        </a>
+                        <a href="#thu-vien-anh" class="inline-flex items-center gap-2 px-5 py-4 rounded-2xl glass-card font-semibold text-slate-800 dark:text-slate-100 hover:border-amber-500 transition">
+                            <span>📸 10 Khoảnh Khắc</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Social Connect Bar in Hero -->
+                    <div class="flex flex-wrap items-center gap-3 pt-2 text-xs sm:text-sm">
+                        <span class="text-slate-500 dark:text-slate-400 font-medium">Kết nối trực tiếp cùng tôi:</span>
+                        <a href="https://www.facebook.com/huong.tn.34518" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-600/10 text-blue-700 dark:text-blue-300 border border-blue-500/25 hover:bg-blue-600 hover:text-white transition font-semibold">
+                            <span>🌐 Facebook Cá Nhân</span>
+                        </a>
+                        <a href="https://zalo.me/0982909515" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 hover:bg-emerald-600 hover:text-white transition font-semibold">
+                            <span>💬 Zalo: 0982 909 515</span>
+                        </a>
+                    </div>
+
+                    <!-- Milestones Counter -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200/80 dark:border-slate-800">
+                        <div>
+                            <div class="font-serif text-2xl sm:text-3xl font-bold text-amber-600 dark:text-amber-400">20+ Năm</div>
+                            <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Giảng dạy khối ngành Kinh tế</div>
+                        </div>
+                        <div>
+                            <div class="font-serif text-2xl sm:text-3xl font-bold text-rose-600 dark:text-rose-400">100%</div>
+                            <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Đam mê Công nghệ thức tỉnh</div>
+                        </div>
+                        <div>
+                            <div class="font-serif text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">Vô Hạn</div>
+                            <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Lòng biết ơn Thầy & Cộng đồng</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Artistic Collage with Featured Photos (a8, a1, a10) -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Portrait Frame (a8.jpg) -->
+                        <div onclick="openLightbox(7)" class="cursor-pointer rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800 relative group aspect-[4/5] bg-slate-200 dark:bg-slate-800">
+                            <img data-photo-id="a8" src="a8.jpg" alt="Hành trình thức tỉnh cùng người Thầy truyền cảm hứng" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="handleImageError(this, 'a8')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
+                                <span class="text-xs uppercase tracking-widest text-amber-300 font-semibold">Khoảnh khắc truyền cảm hứng</span>
+                                <p class="font-serif text-lg sm:text-xl font-medium mt-1">Rạng rỡ trên hành trình rèn luyện & học tập cùng Thầy Tuấn Tử Tế</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Secondary Photo Top-Left (a1.jpg - CMA-F5) -->
+                        <div onclick="openLightbox(0)" class="cursor-pointer hidden sm:block absolute -top-6 -left-8 w-44 rounded-2xl overflow-hidden shadow-xl border-2 border-white dark:border-slate-700 animate-float bg-slate-200 dark:bg-slate-800">
+                            <img data-photo-id="a1" src="a1.jpg" alt="Cộng đồng CMA - F5 Thầy Trần Khánh Tư" class="w-full h-28 object-cover" onerror="handleImageError(this, 'a1')">
+                            <div class="p-2 bg-white/95 dark:bg-slate-900/95 text-[11px] font-semibold text-center text-slate-800 dark:text-slate-200">
+                                🔥 Nâng cấp AI toàn diện CMA-F5
+                            </div>
+                        </div>
+
+                        <!-- Floating Secondary Photo Bottom-Right (a10.jpg - Sand Dunes Community) -->
+                        <div onclick="openLightbox(9)" class="cursor-pointer hidden sm:block absolute -bottom-6 -right-6 w-48 rounded-2xl overflow-hidden shadow-xl border-2 border-white dark:border-slate-700 animate-float bg-slate-200 dark:bg-slate-800" style="animation-delay: 2s;">
+                            <img data-photo-id="a10" src="a10.jpg" alt="Cộng đồng học tập tinh tấn" class="w-full h-28 object-cover" onerror="handleImageError(this, 'a10')">
+                            <div class="p-2 bg-white/95 dark:bg-slate-900/95 text-[11px] font-semibold text-center text-slate-800 dark:text-slate-200">
+                                🤝 Vòng tay lớn cộng hưởng năng lượng
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN LONGFORM STORY: 5 CHAPTERS OF THE SOUL -->
+    <section id="cau-chuyen" class="py-20 bg-parchment/60 dark:bg-slate-900/50 border-y border-amber-500/15">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center space-y-4 mb-16">
+                <span class="px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-widest">Câu Chuyện Truyền Cảm Hứng</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white">
+                    Bản Giao Hưởng Của Những Giấc Mơ Thức Tỉnh
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    Mỗi cuộc đời đều có những khúc quanh tưởng chừng như ngẫu nhiên, nhưng kỳ thực lại là sự sắp đặt diệu kỳ để đưa ta trở về với bản thể chân thật nhất của chính mình.
+                </p>
+            </div>
+
+            <!-- Timeline Story Container -->
+            <div class="relative space-y-16 before:hidden sm:before:block before:absolute before:left-8 before:top-4 before:bottom-4 before:w-1 before:rounded-full timeline-line">
+
+                <!-- CHAPTER 1 -->
+                <article class="relative sm:pl-24">
+                    <div class="hidden sm:flex absolute left-3 top-1 w-11 h-11 rounded-2xl bg-amber-500 text-white font-serif font-bold text-lg items-center justify-center shadow-lg shadow-amber-500/30">
+                        I
+                    </div>
+                    <div class="glass-card rounded-3xl p-7 sm:p-10 shadow-md space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Chương I • Ký Ức Tuổi Thơ</span>
+                            <span class="text-xs px-3 py-1 rounded-full bg-amber-100 dark:bg-slate-800 text-amber-800 dark:text-amber-300">Những con số & Sự nhút nhát</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                            Cô Bé Nhút Nhát Trốn Trong Thế Giới Của Toán Học Và Tự Nhiên
+                        </h3>
+                        <p class="story-paragraph text-slate-700 dark:text-slate-300 drop-cap">
+                            Thuở nhỏ, tôi là một cô bé vô cùng nhút nhát và thiếu tự tin. Giữa đám đông ồn ào, tôi thường chọn cho mình một góc lặng lẽ nhất. Thế giới của ngôn từ hoa mỹ hay những môn học xã hội đối với tôi khi ấy thật xa lạ và đáng sợ — đặc biệt là môn Văn. Tôi không thích môn Văn một chút nào, bởi cô bé rụt rè trong tôi chẳng biết làm sao để phơi bày cảm xúc hay diễn đạt những điều chất chứa trong lòng lên trang giấy.
+                        </p>
+                        <p class="story-paragraph text-slate-700 dark:text-slate-300">
+                            Hơn thế nữa, học AI trong một môi trường đúng đắn đã dạy tôi <strong>quay trở về bên trong</strong>, để phát triển bản thân, rèn luyện chính mình mỗi ngày, mở rộng trái tim để thấu hiểu, yêu thương và biết ơn tất cả. Từ một người từng sợ môn Văn, giờ đây nhờ sự đồng hành của AI và sự khai mở nội tâm, tôi không chỉ viết nên những dòng chữ chạm đến trái tim mà còn <strong>tự sáng tác những bài hát cho riêng mình, tự tay đạo diễn và tạo ra những thước phim, video theo đúng cách mình mong muốn</strong> — điều mà trước đây tôi chưa từng dám mơ tới!
+                        </p>
+                    </div>
+                </article>
+
+                <!-- CHAPTER 2 -->
+                <article class="relative sm:pl-24">
+                    <div class="hidden sm:flex absolute left-3 top-1 w-11 h-11 rounded-2xl bg-rose-500 text-white font-serif font-bold text-lg items-center justify-center shadow-lg shadow-rose-500/30">
+                        II
+                    </div>
+                    <div class="glass-card rounded-3xl p-7 sm:p-10 shadow-md space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs font-bold uppercase tracking-widest text-rose-600 dark:text-rose-400">Chương II • Ngã Rẽ & Hai Thập Kỷ</span>
+                            <span class="text-xs px-3 py-1 rounded-full bg-rose-100 dark:bg-slate-800 text-rose-800 dark:text-rose-300">20+ năm giảng dạy Kinh tế</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                            Ngã Rẽ Tuổi Mười Tám Và Hơn 20 Năm Trên Bục Giảng Kinh Tế
+                        </h3>
+                        <p class="story-paragraph text-slate-700 dark:text-slate-300">
+                            Giờ đây, ở tuổi trung niên, cô bé nhút nhát từng sợ đám đông và ghét môn Văn ngày nào đã hoàn toàn lột xác. Tôi tự tin đứng trước mọi người, tự tin mở lòng chia sẻ những điều mình biết, mình học được về AI. Tôi tự sáng tác giai điệu, lời ca cho tâm hồn mình và tự dựng nên những video truyền cảm hứng sống động. Tôi thấm thía một bài học sâu sắc đã thay đổi hoàn toàn cuộc đời mình: <strong>“Không cần đợi đến khi thật giỏi mới dám chia sẻ, mà chính nhờ cho đi, nhờ chia sẻ mỗi ngày mà mình trở nên giỏi hơn, sâu sắc hơn.”</strong>
+                        </p>
+                        <p class="story-paragraph text-slate-700 dark:text-slate-300">
+                            Mỗi ngày thức dậy với tôi bây giờ là một món quà kỳ diệu. Tôi học AI, rèn luyện bản thân, giảng dạy bằng cả trái tim và lan tỏa năng lượng tích cực đến mọi người xung quanh. Nếu bạn cũng đang ấp ủ một giấc mơ ngủ quên, dù bạn đang ở độ tuổi nào, hãy tin rằng: <em>Chưa bao giờ là quá muộn để thức tỉnh đam mê và viết nên chương rực rỡ nhất của cuộc đời mình!</em>
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- AI MUSIC & VIDEO CREATIONS SHOWCASE SECTION -->
+    <section id="sang-tac-ai" class="py-20 bg-gradient-to-b from-indigo-950 via-slate-900 to-techdark text-white relative overflow-hidden">
+        <!-- Ambient Decorative Glow -->
+        <div class="absolute -top-20 left-1/4 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
+                    <span>🎵 Phép Màu Của Sự Thức Tỉnh Sáng Tạo</span>
+                </div>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
+                    Tự Sáng Tác Bài Hát & Tạo Video Theo Cách Mình Muốn Cùng AI
+                </h2>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Từ một cô bé nhút nhát không thích môn Văn, chỉ quen với những con số khô khan, giờ đây nhờ làm chủ Trí tuệ nhân tạo (AI), tôi đã có thể <strong>tự sáng tác những ca khúc mang tâm sự của riêng mình</strong> và <strong>tự tay tạo nên những video truyền cảm hứng</strong> theo đúng ý tưởng, cảm xúc nơi trái tim.
+                </p>
+            </div>
+
+            <!-- Main Featured Video Theater & Playlist -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
+                <!-- Left: Interactive Main Cinema Player -->
+                <div class="lg:col-span-8 bg-slate-900/90 border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="relative aspect-video bg-black">
+                        <iframe id="mainYoutubeIframe" class="w-full h-full" src="https://www.youtube.com/embed/gptKxM_SMNM?rel=0" title="Tác phẩm Âm nhạc & Video sáng tạo cùng AI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-indigo-950/80 to-slate-900">
+                        <div class="space-y-1">
+                            <span id="activeVideoBadge" class="text-xs font-bold uppercase tracking-widest text-amber-400">🎵 Tác Phẩm Sáng Tạo AI #1</span>
+                            <h3 id="activeVideoTitle" class="font-serif text-xl sm:text-2xl font-bold text-white">Bài Hát & Video Tự Sáng Tác Bằng Cả Trái Tim (Tác phẩm 1)</h3>
+                            <p id="activeVideoDesc" class="text-xs sm:text-sm text-slate-300">Khi công nghệ AI hòa quyện cùng cảm xúc chân thành, lòng biết ơn và khát vọng sống rực rỡ ở tuổi trung niên.</p>
+                        </div>
+                        <a id="activeVideoDirectLink" href="https://youtu.be/gptKxM_SMNM?si=eBDjFesNAUHPQSbv" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs sm:text-sm shadow-lg transition">
+                            <span>▶ Xem trực tiếp trên YouTube</span>
+                            <span>↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: 3 Creative Works Selector & Story Box -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="p-5 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md space-y-3">
+                        <h4 class="font-serif text-lg font-bold text-amber-300 flex items-center gap-2">
+                            <span>✨ Danh Sách Tác Phẩm Tâm Đắc</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Bấm vào từng tác phẩm bên dưới để thưởng thức ngay trên trang hoặc mở trực tiếp trên kênh YouTube của tôi:
+                        </p>
+
+                        <!-- Video Card 1 -->
+                        <div onclick="selectYoutubeVideo(0)" id="videoCard0" class="cursor-pointer p-3.5 rounded-2xl bg-amber-500/20 border-2 border-amber-400 transition flex items-center gap-3.5 group">
+                            <div class="relative w-24 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-800">
+                                <img src="https://img.youtube.com/vi/gptKxM_SMNM/hqdefault.jpg" alt="Tác phẩm AI 1" class="w-full h-full object-cover group-hover:scale-105 transition">
+                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center text-white text-sm">▶</div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[11px] font-bold text-amber-300 uppercase">Tác phẩm #1 • Đang phát</span>
+                                <h5 class="font-semibold text-sm text-white truncate">Khúc Ca Đam Mê & Thức Tỉnh (Video 1)</h5>
+                                <a href="https://youtu.be/gptKxM_SMNM?si=eBDjFesNAUHPQSbv" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-[11px] text-rose-300 hover:underline inline-block mt-0.5">youtu.be/gptKxM_SMNM ↗</a>
+                            </div>
+                        </div>
+
+                        <!-- Video Card 2 -->
+                        <div onclick="selectYoutubeVideo(1)" id="videoCard1" class="cursor-pointer p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center gap-3.5 group">
+                            <div class="relative w-24 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-800">
+                                <img src="https://img.youtube.com/vi/M3qFi4DNkrI/hqdefault.jpg" alt="Tác phẩm AI 2" class="w-full h-full object-cover group-hover:scale-105 transition">
+                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center text-white text-sm">▶</div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[11px] font-bold text-amber-300 uppercase">Tác phẩm #2</span>
+                                <h5 class="font-semibold text-sm text-white truncate">Giai Điệu Tự Sáng Tác & Video AI (Video 2)</h5>
+                                <a href="https://youtu.be/M3qFi4DNkrI" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-[11px] text-rose-300 hover:underline inline-block mt-0.5">youtu.be/M3qFi4DNkrI ↗</a>
+                            </div>
+                        </div>
+
+                        <!-- Video Card 3 -->
+                        <div onclick="selectYoutubeVideo(2)" id="videoCard2" class="cursor-pointer p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center gap-3.5 group">
+                            <div class="relative w-24 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-800">
+                                <img src="https://img.youtube.com/vi/Miv7yd5jSeE/hqdefault.jpg" alt="Tác phẩm AI 3" class="w-full h-full object-cover group-hover:scale-105 transition">
+                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center text-white text-sm">▶</div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[11px] font-bold text-amber-300 uppercase">Tác phẩm #3</span>
+                                <h5 class="font-semibold text-sm text-white truncate">Hành Trình Yêu Thương & Biết Ơn (Video 3)</h5>
+                                <a href="https://youtu.be/Miv7yd5jSeE" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-[11px] text-rose-300 hover:underline inline-block mt-0.5">youtu.be/Miv7yd5jSeE ↗</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Creative Reflection Quote -->
+                    <div class="p-5 rounded-3xl bg-gradient-to-br from-amber-500/20 via-rose-500/15 to-indigo-500/20 border border-amber-400/30 text-xs sm:text-sm text-amber-100 leading-relaxed italic">
+                        “Ai bảo tuổi trung niên hay người khô khan môn Văn thì không thể làm nghệ thuật? Với AI và một trái tim đầy ắp lòng biết ơn, tôi tự viết lời ca, tự phối nhạc và tự dựng nên những thước phim của chính cuộc đời mình!”
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Direct Visual Cards for Instant Viewing -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="https://youtu.be/gptKxM_SMNM?si=eBDjFesNAUHPQSbv" target="_blank" rel="noopener noreferrer" class="group rounded-3xl overflow-hidden bg-white/5 border border-white/10 hover:border-amber-400/60 transition flex flex-col shadow-lg">
+                    <div class="relative aspect-video overflow-hidden bg-slate-800">
+                        <img src="https://img.youtube.com/vi/gptKxM_SMNM/hqdefault.jpg" alt="Video YouTube 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
+                            <span class="w-14 h-14 rounded-full bg-rose-600/90 text-white flex items-center justify-center text-xl shadow-lg group-hover:scale-110 transition">▶</span>
+                        </div>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-amber-300 text-xs font-semibold">🎵 Sáng tác & Video AI #1</span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-amber-300 transition">Tác Phẩm Video & Bài Hát Sáng Tạo Cùng AI #1</h4>
+                            <p class="text-xs text-slate-300 mt-1">Tự sáng tác ca khúc và dựng video theo phong cách riêng đầy cảm hứng.</p>
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 flex items-center justify-between pt-2 border-t border-white/10">
+                            <span>Mở xem trên YouTube</span>
+                            <span>youtu.be/gptKxM_SMNM ↗</span>
+                        </span>
+                    </div>
+                </a>
+
+                <a href="https://youtu.be/M3qFi4DNkrI" target="_blank" rel="noopener noreferrer" class="group rounded-3xl overflow-hidden bg-white/5 border border-white/10 hover:border-amber-400/60 transition flex flex-col shadow-lg">
+                    <div class="relative aspect-video overflow-hidden bg-slate-800">
+                        <img src="https://img.youtube.com/vi/M3qFi4DNkrI/hqdefault.jpg" alt="Video YouTube 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
+                            <span class="w-14 h-14 rounded-full bg-rose-600/90 text-white flex items-center justify-center text-xl shadow-lg group-hover:scale-110 transition">▶</span>
+                        </div>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-amber-300 text-xs font-semibold">🎬 Sáng tác & Video AI #2</span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-amber-300 transition">Tác Phẩm Video & Bài Hát Sáng Tạo Cùng AI #2</h4>
+                            <p class="text-xs text-slate-300 mt-1">Khi những con số và câu lệnh biến thành giai điệu chạm đến trái tim người nghe.</p>
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 flex items-center justify-between pt-2 border-t border-white/10">
+                            <span>Mở xem trên YouTube</span>
+                            <span>youtu.be/M3qFi4DNkrI ↗</span>
+                        </span>
+                    </div>
+                </a>
+
+                <a href="https://youtu.be/Miv7yd5jSeE" target="_blank" rel="noopener noreferrer" class="group rounded-3xl overflow-hidden bg-white/5 border border-white/10 hover:border-amber-400/60 transition flex flex-col shadow-lg">
+                    <div class="relative aspect-video overflow-hidden bg-slate-800">
+                        <img src="https://img.youtube.com/vi/Miv7yd5jSeE/hqdefault.jpg" alt="Video YouTube 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
+                            <span class="w-14 h-14 rounded-full bg-rose-600/90 text-white flex items-center justify-center text-xl shadow-lg group-hover:scale-110 transition">▶</span>
+                        </div>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-amber-300 text-xs font-semibold">🌟 Sáng tác & Video AI #3</span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-amber-300 transition">Tác Phẩm Video & Bài Hát Sáng Tạo Cùng AI #3</h4>
+                            <p class="text-xs text-slate-300 mt-1">Lan tỏa năng lượng tích cực, tình yêu thương và lòng biết ơn qua từng khung hình.</p>
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 flex items-center justify-between pt-2 border-t border-white/10">
+                            <span>Mở xem trên YouTube</span>
+                            <span>youtu.be/Miv7yd5jSeE ↗</span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY OF AI SECTION (4 PILLARS) -->
+    <section id="triet-ly-ai" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest">Triết Lý Sống & Học Tập</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white">
+                    Vì Sao Học AI Là Hành Trình Quay Về Bên Trong?
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400">
+                    Nhiều người nghĩ AI là máy móc vô tri, nhưng với tôi, quá trình học và làm chủ AI lại là tấm gương phản chiếu nội tâm sâu sắc nhất.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Pillar 1 -->
+                <div class="glass-card rounded-3xl p-7 space-y-4 hover:-translate-y-2 transition duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl font-bold">
+                        🪞
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">1. Học AI Để Hiểu Mình Hơn</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Mỗi câu lệnh (Prompt) gửi đến AI chính là một câu hỏi đặt ra cho chính mình: <em>Mình thực sự muốn gì? Giá trị cốt lõi của mình là đâu?</em> Khi tâm trí sáng rõ, AI mới có thể phản hồi trọn vẹn.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="glass-card rounded-3xl p-7 space-y-4 hover:-translate-y-2 transition duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center text-2xl font-bold">
+                        ❤️
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">2. Học AI Để Hiểu Người Hơn</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Ứng dụng AI vào giảng dạy và chia sẻ giúp tôi biết đặt mình vào vị trí của học trò, của người nghe. Công nghệ giúp rút ngắn khoảng cách để con người có thêm thời gian lắng nghe và yêu thương nhau.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="glass-card rounded-3xl p-7 space-y-4 hover:-translate-y-2 transition duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-2xl font-bold">
+                        🌱
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">3. Rèn Luyện Mình Mỗi Ngày</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Thế giới công nghệ thay đổi từng giờ, nhắc nhở tôi giữ tâm thế "chiếc cốc rỗng" — khiêm nhường học hỏi, kỷ luật từ bước chạy buổi sáng đến những giờ thực hành AI tinh tấn.
+                    </p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="glass-card rounded-3xl p-7 space-y-4 hover:-translate-y-2 transition duration-300">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl font-bold">
+                        🙏
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">4. Chia Sẻ Rồi Mới Giỏi</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Vượt qua nỗi sợ phán xét thuở nhỏ, tôi chọn trao đi những gì mình biết. Mỗi lần hướng dẫn một ai đó dùng AI là một lần kiến thức và tình yêu thương trong tôi được nhân đôi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GRATITUDE TRIBUTE: MENTORS & COMMUNITY -->
+    <section id="long-biet-on" class="py-20 bg-gradient-to-b from-amber-500/10 via-rose-500/5 to-transparent dark:from-slate-900 dark:to-techdark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-4 py-1.5 rounded-full bg-rose-500/15 text-rose-700 dark:text-rose-300 text-xs font-bold uppercase tracking-widest">Khúc Ca Lòng Biết Ơn</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white">
+                    Tri Ân Những Người Thầy Lớn & Cộng Đồng Tinh Tấn
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300">
+                    “Biết ơn những người thầy lớn đã chỉ đường. Biết ơn thầy đã tạo ra môi trường học tập. Biết ơn thầy đã truyền cảm hứng. Biết ơn tất cả các anh chị trong cộng đồng học tập đã cộng hưởng năng lượng vô cùng tuyệt vời.”
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Tribute Card 1: Thầy Trần Khánh Tư -->
+                <div class="glass-card rounded-3xl overflow-hidden shadow-lg flex flex-col">
+                    <div onclick="openLightbox(0)" class="cursor-pointer h-64 overflow-hidden relative bg-slate-200 dark:bg-slate-800">
+                        <img data-photo-id="a1" src="a1.jpg" alt="Thầy Trần Khánh Tư và cộng đồng CMA - F5" class="w-full h-full object-cover hover:scale-105 transition duration-500" onerror="handleImageError(this, 'a1')">
+                        <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-amber-600 text-white text-xs font-bold shadow">
+                            Người Thầy Khai Mở AI
+                        </div>
+                    </div>
+                    <div class="p-7 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <h3 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">Thầy Trần Khánh Tư</h3>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">Chuyên Gia - Nhà Đào Tạo AI Toàn Diện • CMA - F5</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Biết ơn Thầy đã thắp lên ngọn đuốc dẫn đường, biến những kiến thức công nghệ phức tạp trở nên gần gũi, nhân văn và đầy cảm hứng. Môi trường học tập <strong>CMA - F5</strong> do Thầy kiến tạo chính là chiếc nôi giúp đam mê công nghệ trong tôi thức tỉnh mạnh mẽ nhất.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-200/70 dark:border-slate-800 text-xs italic text-slate-500 dark:text-slate-400">
+                            “Người thầy vĩ đại là người biết truyền cảm hứng và đánh thức tiềm năng trong mỗi học trò.”
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tribute Card 2: Thầy Tuấn Tử Tế -->
+                <div class="glass-card rounded-3xl overflow-hidden shadow-lg flex flex-col border-2 border-amber-500/30">
+                    <div onclick="openLightbox(7)" class="cursor-pointer h-64 overflow-hidden relative bg-slate-200 dark:bg-slate-800">
+                        <img data-photo-id="a8" src="a8.jpg" alt="Thầy Tuấn Tử Tế truyền cảm hứng rèn luyện" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500" onerror="handleImageError(this, 'a8')">
+                        <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-rose-600 text-white text-xs font-bold shadow">
+                            Người Thầy Rèn Luyện Thân - Tâm - Trí
+                        </div>
+                    </div>
+                    <div class="p-7 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <h3 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">Thầy Tuấn Tử Tế</h3>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">Người Truyền Lửa Kỷ Luật, Sự Tử Tế & Quay Về Bên Trong</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Biết ơn Thầy Tuấn Tử Tế — người thầy luôn hiện diện với nụ cười ấm áp, sự giản dị và nguồn năng lượng bền bỉ. Nhờ Thầy, tôi học được cách quay trở về bên trong, rèn luyện bản thân mỗi ngày, sống trọn vẹn trong từng bước chân và lan tỏa sự tử tế đến cuộc đời.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-200/70 dark:border-slate-800 text-xs italic text-slate-500 dark:text-slate-400">
+                            “Học để hiểu mình, sửa mình mỗi ngày và sống một cuộc đời rực rỡ, tử tế.”
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tribute Card 3: Cộng Đồng Học Tập Tinh Tấn -->
+                <div class="glass-card rounded-3xl overflow-hidden shadow-lg flex flex-col">
+                    <div onclick="openLightbox(9)" class="cursor-pointer h-64 overflow-hidden relative bg-slate-200 dark:bg-slate-800">
+                        <img data-photo-id="a10" src="a10.jpg" alt="Cộng đồng học tập tinh tấn nắm tay nhau trên đồi cát" class="w-full h-full object-cover hover:scale-105 transition duration-500" onerror="handleImageError(this, 'a10')">
+                        <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-bold shadow">
+                            Sức Mạnh Cộng Hưởng
+                        </div>
+                    </div>
+                    <div class="p-7 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <h3 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">Cộng Đồng Học Tập Tinh Tấn</h3>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Những Người Đồng Đội Cùng Tần Số Yêu Thương</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Muốn đi nhanh hãy đi một mình, muốn đi xa hãy đi cùng nhau. Biết ơn tất cả các anh chị em trong cộng đồng học tập đã luôn khích lệ, lắng nghe những chia sẻ về AI của tôi, cùng nhau tạo nên một trường năng lượng tích cực, trong lành và đầy ắp tiếng cười.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-200/70 dark:border-slate-800 text-xs italic text-slate-500 dark:text-slate-400">
+                            “Nơi những trái tim đồng điệu nắm tay nhau cùng tiến về phía mặt trời.”
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE PHOTO GALLERY (ALL 10 PHOTOS a1.jpg - a10.jpg WITH STORIES) -->
+    <section id="thu-vien-anh" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div class="space-y-3">
+                    <span class="px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-widest">Thư Viện Ký Ức Sống Động</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white">
+                        10 Khoảnh Khắc Của Hành Trình Thức Tỉnh
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl">
+                        Mỗi bức ảnh là một dấu ấn không thể nào quên: từ hội trường học tập AI rực lửa đến những cung đường rèn luyện và trải nghiệm cùng người Thầy, người bạn đồng hành. <em>(Bấm vào từng bức ảnh để đọc câu chuyện chi tiết phía sau).</em>
+                    </p>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterGallery('all')" data-filter="all" class="gallery-tab px-4 py-2 rounded-xl text-xs font-bold bg-amber-600 text-white shadow transition">Tất cả (10)</button>
+                    <button onclick="filterGallery('ai')" data-filter="ai" class="gallery-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/20 transition">Học Tập AI & CMA-F5</button>
+                    <button onclick="filterGallery('mentor')" data-filter="mentor" class="gallery-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/20 transition">Người Thầy & Rèn Luyện</button>
+                    <button onclick="filterGallery('community')" data-filter="community" class="gallery-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/20 transition">Hành Trình Cộng Đồng</button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid Rendered by JS -->
+            <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        </div>
+    </section>
+
+    <!-- GÓC CHIA SẺ AI & BÀI HỌC CUỘC SỐNG (4 FULL ARTICLES) -->
+    <section id="goc-chia-se" class="py-20 bg-parchment/70 dark:bg-slate-900/60 border-y border-amber-500/15">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+                <span class="px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-widest">Không Cần Giỏi Mới Chia Sẻ • Chia Sẻ Rồi Mới Giỏi</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white">
+                    Góc Chia Sẻ: AI & Những Bài Học Sâu Sắc
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400">
+                    Những bài viết được đúc kết từ chính trải nghiệm học AI ở tuổi trung niên của một giảng viên Kinh tế từng "sợ" môn Văn. Bấm vào từng bài viết để đọc trọn vẹn.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="blogPostsContainer">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE GRATITUDE WALL & GUESTBOOK (CỘNG HƯỞNG NĂNG LƯỢNG) -->
+    <section id="luu-but" class="py-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 shadow-xl border border-amber-500/25">
+                <div class="text-center max-w-2xl mx-auto space-y-3 mb-10">
+                    <span class="px-4 py-1.5 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-widest">Góc Cộng Hưởng Năng Lượng</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+                        Gửi Lời Tri Ân & Chia Sẻ Cảm Hứng Cùng Tôi
+                    </h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-300">
+                        Hãy để lại một lời nhắn, một bài học tâm đắc hoặc lời chúc tốt đẹp để chúng ta cùng cộng hưởng nguồn năng lượng tuyệt vời này nhé!
+                    </p>
+                </div>
+
+                <!-- Form to add a gratitude/inspiration note -->
+                <form onsubmit="addGratitudeMessage(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-10">
+                    <div class="sm:col-span-4">
+                        <input type="text" id="guestName" required placeholder="Tên của bạn / Anh Chị..." class="w-full px-4 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div class="sm:col-span-6">
+                        <input type="text" id="guestMessage" required placeholder="Viết lời chia sẻ, cảm nhận hoặc lời biết ơn..." class="w-full px-4 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <button type="submit" class="w-full h-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-600 to-rose-600 text-white font-semibold text-sm shadow-md hover:opacity-95 transition">
+                            Gửi Yêu Thương ❤️
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Messages Feed -->
+                <div id="gratitudeWall" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIRECT CONNECTION SECTION (FACEBOOK, ZALO, YOUTUBE) -->
+    <section id="ket-noi" class="py-16 bg-gradient-to-r from-amber-500/10 via-rose-500/10 to-indigo-500/10 border-t border-amber-500/20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-amber-500/30 text-center space-y-8">
+                <div class="space-y-3 max-w-2xl mx-auto">
+                    <span class="px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-widest">Cầu Nối Yêu Thương & Chia Sẻ AI</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+                        Kết Nối Trực Tiếp Cùng Tôi
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                        “Không cần giỏi mới chia sẻ, mà chia sẻ rồi mới giỏi.” Nếu bạn cũng yêu thích AI, muốn tự sáng tác bài hát, tự làm video cho riêng mình hoặc đơn giản là muốn cùng cộng hưởng nguồn năng lượng tích cực mỗi ngày, đừng ngần ngại kết nối với tôi nhé!
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <!-- Facebook Card -->
+                    <a href="https://www.facebook.com/huong.tn.34518" target="_blank" rel="noopener noreferrer" class="p-6 rounded-2xl bg-white dark:bg-slate-800/90 border border-blue-500/25 shadow-md hover:-translate-y-1.5 transition flex flex-col justify-between group">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
+                                🌐
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Facebook Cá Nhân</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 break-all">facebook.com/huong.tn.34518</p>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Theo dõi những bài viết, video AI mới nhất và hành trình rèn luyện mỗi ngày của tôi.</p>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-700 text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center justify-between">
+                            <span>Truy cập Facebook</span>
+                            <span>↗</span>
+                        </div>
+                    </a>
+
+                    <!-- Zalo / Phone Card -->
+                    <div class="p-6 rounded-2xl bg-white dark:bg-slate-800/90 border border-emerald-500/30 shadow-md hover:-translate-y-1.5 transition flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-md">
+                                💬
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">Zalo & Điện Thoại</h3>
+                            <p class="text-lg font-mono font-bold text-emerald-600 dark:text-emerald-400">0982 909 515</p>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Nhắn tin qua Zalo hoặc gọi trực tiếp để cùng trò chuyện, giao lưu và học hỏi về AI.</p>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-700 flex items-center gap-2">
+                            <a href="https://zalo.me/0982909515" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold text-center transition">
+                                Mở Zalo Chat
+                            </a>
+                            <button onclick="copyZaloNumber()" id="copyZaloBtn" class="py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-amber-500 hover:text-white text-slate-700 dark:text-slate-200 text-xs font-semibold transition">
+                                Sao chép số
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- YouTube Creations Card -->
+                    <a href="#sang-tac-ai" class="p-6 rounded-2xl bg-white dark:bg-slate-800/90 border border-rose-500/25 shadow-md hover:-translate-y-1.5 transition flex flex-col justify-between group">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-2xl shadow-md">
+                                🎬
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400 transition">Kênh Sáng Tác Nhạc & Video AI</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Tự sáng tác bài hát & dựng video</p>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Thưởng thức các bài hát và video do chính tôi sáng tạo bằng công nghệ Trí tuệ nhân tạo.</p>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-700 text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center justify-between">
+                            <span>Xem bộ sưu tập Video</span>
+                            <span>↑</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING QUICK CONNECT WIDGET -->
+    <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-2.5">
+        <a href="https://zalo.me/0982909515" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-xl hover:scale-105 transition" title="Kết nối Zalo: 0982909515">
+            <span>💬 Zalo: 0982.909.515</span>
+        </a>
+        <a href="https://www.facebook.com/huong.tn.34518" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-xl hover:scale-105 transition" title="Facebook Cá Nhân">
+            <span>🌐 Facebook Của Tôi</span>
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-300 py-14 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 via-rose-500 to-indigo-600 text-white font-serif font-bold text-2xl shadow-lg">
+                AI
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white">
+                “Học AI Để Hiểu Mình, Hiểu Người, Yêu Thương & Biết Ơn Tất Cả”
+            </h3>
+            <p class="max-w-2xl mx-auto text-sm text-slate-400 leading-relaxed">
+                Trang Blog lưu giữ hành trình thức tỉnh đam mê công nghệ, tự sáng tác âm nhạc và video AI ở tuổi trung niên của một Giảng viên Kinh tế. Xin gửi trọn tấm lòng biết ơn sâu sắc nhất tới <strong>Thầy Trần Khánh Tư</strong>, <strong>Thầy Tuấn Tử Tế</strong> và toàn thể anh chị em trong <strong>Cộng đồng học tập tinh tấn CMA - F5</strong>.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-amber-400">
+                <a href="https://www.facebook.com/huong.tn.34518" target="_blank" rel="noopener noreferrer" class="hover:underline">🌐 Facebook: facebook.com/huong.tn.34518</a>
+                <span>•</span>
+                <a href="https://zalo.me/0982909515" target="_blank" rel="noopener noreferrer" class="hover:underline">💬 Zalo / ĐT: 0982 909 515</a>
+            </div>
+            <div class="pt-6 border-t border-slate-800 text-xs text-slate-500 flex flex-wrap justify-center gap-6">
+                <span>✨ Thiết kế dành riêng cho Hành Trình Thức Tỉnh Đam Mê Công Nghệ</span>
+                <span>•</span>
+                <span>“Không cần giỏi mới chia sẻ, mà chia sẻ rồi mới giỏi”</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX MODAL FOR PHOTOS -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="max-w-5xl w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-amber-500/30 grid grid-cols-1 lg:grid-cols-12 max-h-[90vh]">
+            <!-- Image Container -->
+            <div class="lg:col-span-7 bg-black flex items-center justify-center relative min-h-[280px] sm:min-h-[420px]">
+                <img id="lightboxImg" src="" alt="" class="max-h-[75vh] w-auto object-contain">
+                <button onclick="navigateLightbox(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-amber-600 text-white flex items-center justify-center transition">❮</button>
+                <button onclick="navigateLightbox(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-amber-600 text-white flex items-center justify-center transition">❯</button>
+            </div>
+            <!-- Story Details Container -->
+            <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span id="lightboxBadge" class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-xs font-bold"></span>
+                        <button onclick="closeLightbox()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-rose-500 hover:text-white transition">✕</button>
+                    </div>
+                    <h3 id="lightboxTitle" class="font-serif text-2xl font-bold text-slate-900 dark:text-white"></h3>
+                    <p id="lightboxStory" class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+                    <div class="p-4 rounded-2xl bg-amber-50 dark:bg-slate-800/80 border-l-4 border-amber-500 text-xs sm:text-sm italic text-slate-700 dark:text-slate-200" id="lightboxLesson"></div>
+                </div>
+
+                <!-- Individual Photo Replace Button -->
+                <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <span id="lightboxCounter" class="text-xs text-slate-400 font-medium"></span>
+                    <label class="cursor-pointer text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1">
+                        <span>📷 Đổi ảnh này từ máy</span>
+                        <input type="file" accept="image/*" class="hidden" onchange="replaceCurrentLightboxPhoto(event)">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE READER MODAL -->
+    <div id="articleModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="max-w-3xl w-full bg-cream dark:bg-slate-900 rounded-3xl shadow-2xl border border-amber-500/30 max-h-[88vh] flex flex-col overflow-hidden">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <span id="articleModalTag" class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold"></span>
+                <button onclick="closeArticleModal()" class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-rose-500 hover:text-white transition">✕</button>
+            </div>
+            <div class="p-6 sm:p-10 overflow-y-auto space-y-5">
+                <h2 id="articleModalTitle" class="font-serif text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white leading-tight"></h2>
+                <div id="articleModalContent" class="space-y-4 text-slate-700 dark:text-slate-300 story-paragraph"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. DATA: 10 PHOTOS (a1.jpg -> a10.jpg) WITH DEEP INSPIRING STORIES
+        // ==========================================
+        const photosData = [
+            {
+                id: 'a1',
+                src: 'a1.jpg',
+                category: 'ai',
+                badge: 'Khóa Học AI • CMA - F5',
+                title: 'Ngọn Lửa Quyết Tâm Nâng Cấp Kiến Thức AI Toàn Diện',
+                story: 'Khoảnh khắc đứng cùng những người đồng đội tuyệt vời tại khóa học "Nâng cấp kiến thức AI toàn diện" của Chuyên gia - Nhà đào tạo Trần Khánh Tư (CMA - F5). Nắm tay giơ cao đầy quyết tâm, cô bé nhút nhát thuở nào giờ đây đã tìm lại được đam mê công nghệ rực cháy ở tuổi trung niên.',
+                lesson: '“Biết ơn Thầy Trần Khánh Tư đã tạo ra môi trường học tập tuyệt vời và đánh thức tiềm năng công nghệ trong tôi.”'
+            },
+            {
+                id: 'a2',
+                src: 'a2.jpg',
+                category: 'ai',
+                badge: 'Đại Gia Đình CMA - F5',
+                title: 'Sức Mạnh Cộng Hưởng Của Hàng Trăm Trái Tim Tinh Tấn',
+                story: 'Giữa không gian rộng lớn nhìn ra những tòa tháp hiện đại, đại gia đình CMA - F5 cùng nhau hội tụ. Ở đây không có khoảng cách tuổi tác hay ngành nghề, chỉ có những con người khát khao học tập AI để chuyển hóa bản thân và trao giá trị cho cộng đồng.',
+                lesson: '“Học AI không chỉ là học công cụ, mà là hòa mình vào một dòng chảy năng lượng tích cực của những người ham học hỏi.”'
+            },
+            {
+                id: 'a3',
+                src: 'a3.jpg',
+                category: 'community',
+                badge: 'Ấm Áp Tình Thân',
+                title: 'Đêm Hội Ngộ Dưới Ánh Đèn Lồng Cùng Thầy & Đồng Đội',
+                story: 'Sau những giờ học tập và rèn luyện miệt mài, cả đoàn cùng quây quần bên chiếc bàn đỏ giản dị dưới ánh đèn lồng ấm cúng. Nụ cười rạng rỡ khi được ngồi cạnh Thầy Tuấn Tử Tế và các anh chị em đồng môn làm tan biến mọi rào cản nhút nhát ngày xưa.',
+                lesson: '“Học AI giúp tôi hiểu mình hơn, hiểu người hơn và cảm nhận từng khoảnh khắc bình dị của cuộc sống đều vô cùng tuyệt vời.”'
+            },
+            {
+                id: 'a4',
+                src: 'a4.jpg',
+                category: 'mentor',
+                badge: 'Hành Trình Về Nguồn',
+                title: 'Tĩnh Tâm & Tri Ân Trước Cổng Chùa Cổ Kính',
+                story: 'Trong sắc áo cờ đỏ sao vàng rực rỡ, tôi đứng cùng Thầy Tuấn Tử Tế và những người anh chị em trong cộng đồng học tập tinh tấn. Hành trình học công nghệ luôn song hành với hành trình quay về bên trong, nuôi dưỡng đạo đức, lòng từ bi và sự biết ơn nguồn cội.',
+                lesson: '“Quay trở về bên trong để tâm tĩnh lặng, trí sáng suốt và trái tim tràn ngập tình yêu thương.”'
+            },
+            {
+                id: 'a5',
+                src: 'a5.jpg',
+                category: 'community',
+                badge: 'Trải Nghiệm Thiên Nhiên',
+                title: 'Chuyến Đò Bình Yên Giữa Non Nước Tràng An',
+                story: 'Trên chiếc thuyền nhỏ số 1168 lướt nhẹ qua dòng nước xanh biếc và những vách núi đá vôi hùng vĩ, Thầy Tuấn Tử Tế tự tay cầm điện thoại ghi lại nụ cười tươi tắn của các chị em. Sự gắn kết chân thành của người Thầy và đồng đội khiến tâm hồn tôi trẻ lại như thuở đôi mươi.',
+                lesson: '“Khi lòng ngập tràn biết ơn, đất trời và vạn vật xung quanh đều mỉm cười với chúng ta.”'
+            },
+            {
+                id: 'a6',
+                src: 'a6.jpg',
+                category: 'community',
+                badge: 'Dấu Ấn Hành Trình',
+                title: 'Nụ Cười Rạng Rỡ Trên Những Bậc Đá Rêu Phong',
+                story: 'Dưới bầu trời xanh trong vắt và cổng thành cổ kính, đại gia đình học tập tinh tấn cùng nhau lưu giữ kỷ niệm. Đi qua hơn 20 năm giảng dạy kinh tế, chưa bao giờ tôi thấy mình tràn đầy sức sống và kết nối sâu sắc với mọi người như lúc này.',
+                lesson: '“Biết ơn tất cả các anh chị trong cộng đồng học tập đã cộng hưởng nguồn năng lượng vô cùng tuyệt vời.”'
+            },
+            {
+                id: 'a7',
+                src: 'a7.jpg',
+                category: 'mentor',
+                badge: 'Năng Lượng Rực Rỡ',
+                title: 'Giơ Cao Cánh Tay Tự Tin Giữa Đất Trời',
+                story: 'Một bức ảnh tràn ngập niềm vui! Phía sau Thầy Tuấn Tử Tế và các chị em cùng chiếc quạt đỏ sao vàng Việt Nam, tôi tự tin giơ cao cánh tay tạo dáng chữ V chiến thắng. Sự rụt rè thuở nhỏ đã nhường chỗ cho niềm kiêu hãnh và hạnh phúc trọn vẹn.',
+                lesson: '“Tuổi trung niên không phải là điểm dừng, mà là bình minh mới khi đam mê thực sự được đánh thức.”'
+            },
+            {
+                id: 'a8',
+                src: 'a8.jpg',
+                category: 'mentor',
+                badge: 'Tri Ân Người Thầy',
+                title: 'Khoảnh Khắc Đáng Nhớ Bên Thầy Tuấn Tử Tế',
+                story: 'Giữa con đường rợp bóng cây xanh và núi non hùng vĩ, tôi diện chiếc áo cờ đỏ sao vàng, thả tim rạng rỡ bên cạnh Thầy Tuấn Tử Tế. Bức ảnh đại diện cho sự chuyển hóa kỳ diệu của tôi: từ tốn, biết ơn nhưng vô cùng tự tin trên hành trình phát triển bản thân.',
+                lesson: '“Biết ơn những người thầy lớn đã chỉ đường, truyền cảm hứng và dạy tôi bài học sâu sắc về sự tử tế.”'
+            },
+            {
+                id: 'a9',
+                src: 'a9.jpg',
+                category: 'mentor',
+                badge: 'Rèn Luyện Mỗi Ngày',
+                title: 'Bình Minh Tinh Tấn Trên Cung Đường Sớm Mai',
+                story: 'Khi phố phường còn chưa thức giấc hẳn, thầy trò và các chị em đã hoàn thành chặng rèn luyện thể chất buổi sáng. Học AI đi đôi với rèn luyện sức khỏe, rèn luyện kỷ luật bản thân mỗi ngày để luôn có một nguồn năng lượng dồi dào nhất.',
+                lesson: '“Rèn luyện mình mỗi ngày — bởi kỷ luật chính là cây cầu nối giữa ước mơ và hiện thực.”'
+            },
+            {
+                id: 'a10',
+                src: 'a10.jpg',
+                category: 'community',
+                badge: 'Vòng Tay Lớn',
+                title: 'Nắm Tay Nhau Giữa Đồi Cát Mênh Mông',
+                story: 'Nhìn từ trên cao, cả đoàn như một cánh cung đoàn kết nối liền nhau giữa biển cát vàng rộng lớn. Khoảnh khắc ấy nhắc nhở tôi rằng: kiến thức hay hạnh phúc chỉ thực sự trọn vẹn khi được sẻ chia và lan tỏa tới cộng đồng.',
+                lesson: '“Không cần giỏi mới chia sẻ, mà chia sẻ rồi mới giỏi. Cùng nắm tay nhau tiến về phía trước!”'
+            }
+        ];
+
+        // ==========================================
+        // 2. DATA: 4 INSPIRING BLOG ARTICLES
+        // ==========================================
+        const blogPosts = [
+            {
+                tag: 'Tâm Sự Tuổi Trung Niên',
+                title: '1. Từ Cô Bé Ghét Môn Văn Đến Người Viết Nên Câu Chuyện Truyền Cảm Hứng Nhờ AI',
+                excerpt: 'Thuở nhỏ tôi chỉ yêu Toán và sợ nhất những trang văn. Vậy mà ở tuổi trung niên, AI đã trở thành người bạn tri kỷ giúp tôi khơi thông dòng chảy ngôn từ từ chính trái tim mình...',
+                readTime: '4 phút đọc',
+                content: `
+                    <p>Nếu ai đó nói với cô bé nhút nhát của 30 năm trước rằng: <em>"Sau này, bạn sẽ tự tin viết blog, tự sáng tác bài hát cho riêng mình và tự làm ra những video truyền cảm hứng cho rất nhiều người"</em>, chắc chắn cô bé ấy sẽ lắc đầu nguầy nguậy. Bởi ngày ấy, tôi chỉ biết làm bạn với những con số của môn Toán và các môn Tự nhiên. Môn Văn hay nghệ thuật đối với tôi là một nỗi ám ảnh thực sự.</p>
+                    <p>Thế nhưng, khi chạm ngõ Trí tuệ nhân tạo (AI) ở tuổi trung niên sau hơn 20 năm giảng dạy ngành Kinh tế, tôi bỗng phát hiện ra một bí mật kỳ diệu: <strong>Văn chương và âm nhạc thực chất không phải là sự sáo rỗng, mà là toán học của cảm xúc cộng với sự chân thành.</strong></p>
+                    <p>Nhờ tư duy logic của Toán học thuở nhỏ, tôi dễ dàng nắm bắt cấu trúc câu lệnh (Prompt) của AI. Và nhờ những trải nghiệm sống qua hai thập kỷ cùng lòng biết ơn sâu sắc với các Thầy và cộng đồng, tôi thổi hồn vào từng câu lệnh ấy. Giờ đây, tôi có thể tự sáng tác những bài hát mang giai điệu của riêng mình và tự dựng những video theo đúng ý muốn. Hóa ra, khi đam mê công nghệ thức tỉnh, nó không xóa nhòa quá khứ mà kết nối mọi mảnh ghép trong tôi thành một bức tranh hoàn mỹ.</p>
+                `
+            },
+            {
+                tag: 'Triết Lý Học Tập',
+                title: '2. “Không Cần Giỏi Mới Chia Sẻ, Mà Chia Sẻ Rồi Mới Giỏi” — Bài Học Thay Đổi Đời Tôi',
+                excerpt: 'Rào cản lớn nhất của người trưởng thành khi học công nghệ mới là nỗi sợ mình chưa đủ giỏi. Nhưng chính khoảnh khắc dám mở lòng chỉ dẫn cho người khác, phép màu đã xảy ra...',
+                readTime: '5 phút đọc',
+                content: `
+                    <p>Là một giảng viên có hơn 20 năm đứng lớp trong khối ngành Kinh tế, tôi từng quen với việc mình phải nắm thật vững, thật sâu một chuyên môn rồi mới dám giảng giải. Khi bước sang lĩnh vực AI ở tuổi trung niên, ban đầu tôi cũng mang tâm lý rụt rè: <em>"Mình mới học, còn bao nhiêu người trẻ giỏi hơn, mình biết gì mà chia sẻ?"</em></p>
+                    <p>Nhưng trong môi trường học tập của <strong>Thầy Trần Khánh Tư (CMA - F5)</strong> và sự khích lệ của <strong>Thầy Tuấn Tử Tế</strong>, tôi đã ngộ ra chân lý: <strong>“Không cần giỏi mới chia sẻ, mà chia sẻ rồi mới giỏi.”</strong></p>
+                    <p>Khi tôi biết 1 điều về AI và tôi hào hứng chỉ lại cho đồng nghiệp, cho anh chị em trong cộng đồng, tôi được học lại điều đó thêm một lần nữa sâu sắc hơn. Những câu hỏi của mọi người giúp tôi tìm tòi thêm, hoàn thiện mình hơn mỗi ngày. Quan trọng nhất, việc chia sẻ giúp tôi chiến thắng hoàn toàn cô bé nhút nhát bên trong mình để sống một cuộc đời cống hiến và rực rỡ.</p>
+                `
+            },
+            {
+                tag: 'Tu Thân & Nội Tâm',
+                title: '3. Học AI Để Quay Về Bên Trong: Khi Công Nghệ Cao Nhất Gặp Gỡ Đạo Lý Sâu Nhất',
+                excerpt: 'Vì sao học công nghệ lại giúp con người biết yêu thương, thấu hiểu và biết ơn nhiều hơn? Câu trả lời nằm ở cách chúng ta đối diện với chính mình qua từng dòng suy nghĩ...',
+                readTime: '5 phút đọc',
+                content: `
+                    <p>Nhiều người hỏi tôi: <em>"Học AI là học về máy móc, thuật toán, sao chị lại nói học AI để quay về bên trong?"</em></p>
+                    <p>Kỳ thực, AI giống như một tấm gương phản chiếu tâm thức của người sử dụng. Một người nóng vội, thiếu rõ ràng bên trong sẽ viết ra những câu lệnh hỗn độn. Một người biết lắng nghe nội tâm, biết mình muốn trao giá trị gì cho người khác sẽ trò chuyện với AI bằng ngôn từ sáng rõ, nhân văn và sâu sắc.</p>
+                    <p>Hành trình học AI đã đưa tôi đến với những người Thầy lớn và một cộng đồng tinh tấn. Ở đó, chúng tôi không chỉ học kỹ thuật sử dụng công cụ, mà học cách rèn luyện Thân - Tâm - Trí mỗi ngày: từ những bước chạy bộ lúc bình minh, những chuyến đi về nguồn, cho đến việc thực hành lòng biết ơn vô điều kiện. Nhờ học AI, tôi hiểu mình hơn, thương người hơn và thấy cuộc sống mỗi ngày đều là một phép màu.</p>
+                `
+            },
+            {
+                tag: 'Lòng Biết Ơn',
+                title: '4. Lòng Biết Ơn — “Thuật Toán” Kỳ Diệu Nhất Kết Nối Tôi Với Những Người Thầy Lớn',
+                excerpt: 'Trong thế giới AI có hàng triệu thuật toán thông minh, nhưng trong cuộc đời, lòng biết ơn chính là thuật toán vĩ đại nhất mở ra mọi cánh cửa hạnh phúc...',
+                readTime: '4 phút đọc',
+                content: `
+                    <p>Nhìn lại chặng đường đã qua, trái tim tôi luôn thổn thức hai chữ <strong>Biết Ơn</strong>.</p>
+                    <p>Tôi biết ơn cô bé nhút nhát yêu môn Toán ngày xưa đã giữ gìn hạt mầm đam mê công nghệ suốt hơn hai thập kỷ. Tôi biết ơn hơn 20 năm giảng dạy Kinh tế đã rèn cho tôi sự điềm đạm của một nhà giáo.</p>
+                    <p>Và đặc biệt, tôi biết ơn <strong>Thầy Trần Khánh Tư</strong> đã mở ra cánh cửa tri thức AI toàn diện; biết ơn <strong>Thầy Tuấn Tử Tế</strong> đã truyền ngọn lửa rèn luyện và sự tử tế trong từng hành động nhỏ; biết ơn tất cả các anh chị em trong <strong>cộng đồng học tập tinh tấn</strong> đã luôn yêu thương, đồng hành và cộng hưởng năng lượng cùng tôi. Khi lòng biết ơn đủ đầy, mọi giới hạn của tuổi tác đều tan biến!</p>
+                `
+            }
+        ];
+
+        // ==========================================
+        // 3. RENDER GALLERY & FALLBACK / UPLOAD HANDLERS
+        // ==========================================
+        let currentFilter = 'all';
+        let currentLightboxIndex = 0;
+        const customPhotoMap = {}; // Stores Base64 if user loads local files
+
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const filtered = currentFilter === 'all'
+                ? photosData
+                : photosData.filter(item => item.category === currentFilter);
+
+            grid.innerHTML = filtered.map((item) => {
+                const realIndex = photosData.findIndex(p => p.id === item.id);
+                const imgSrc = customPhotoMap[item.id] || item.src;
+                return `
+                    <div onclick="openLightbox(${realIndex})" class="photo-card cursor-pointer glass-card rounded-3xl overflow-hidden flex flex-col group">
+                        <div class="relative h-64 overflow-hidden bg-slate-200 dark:bg-slate-800">
+                            <img data-photo-id="${item.id}" src="${imgSrc}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="handleImageError(this, '${item.id}')">
+                            <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/65 backdrop-blur-md text-amber-300 text-xs font-semibold">
+                                ${item.badge}
+                            </div>
+                            <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/60 text-white text-[11px] font-mono">
+                                ${item.id}.jpg
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-3">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">${item.title}</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 line-clamp-3 leading-relaxed">${item.story}</p>
+                            </div>
+                            <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-amber-600 dark:text-amber-400">
+                                <span>Đọc câu chuyện bức ảnh</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterGallery(category) {
+            currentFilter = category;
+            document.querySelectorAll('.gallery-tab').forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.className = 'gallery-tab px-4 py-2 rounded-xl text-xs font-bold bg-amber-600 text-white shadow transition';
+                } else {
+                    btn.className = 'gallery-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/20 transition';
+                }
+            });
+            renderGallery();
+        }
+
+        // Graceful SVG placeholder if a1.jpg - a10.jpg isn't in the same directory yet
+        function handleImageError(imgEl, photoId) {
+            const info = photosData.find(p => p.id === photoId);
+            const title = info ? info.title : photoId;
+            const badge = info ? info.badge : 'Ảnh kỷ niệm';
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+                <defs>
+                    <linearGradient id="g_${photoId}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#1e1b4b"/>
+                        <stop offset="50%" stop-color="#7c2d12"/>
+                        <stop offset="100%" stop-color="#9f1239"/>
+                    </linearGradient>
+                </defs>
+                <rect width="800" height="600" fill="url(#g_${photoId})"/>
+                <circle cx="400" cy="230" r="55" fill="rgba(251,191,36,0.18)" stroke="#fbbf24" stroke-width="2"/>
+                <text x="400" y="242" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="32" font-weight="bold">${photoId}.jpg</text>
+                <text x="400" y="335" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="18" font-weight="bold">${badge}</text>
+                <text x="400" y="375" text-anchor="middle" fill="#ffffff" font-family="serif" font-size="22" font-weight="bold">${title.slice(0, 46)}</text>
+                <text x="400" y="435" text-anchor="middle" fill="#fed7aa" font-family="sans-serif" font-size="15">Bấm nút "Chọn 10 ảnh (a1 - a10) từ máy" trên thanh đầu trang để hiển thị ảnh thật</text>
+            </svg>`;
+            imgEl.onerror = null;
+            imgEl.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+        }
+
+        // Compress & Convert uploaded file to clean DataURL so standalone HTML export stays fast and portable
+        function fileToCompressedDataURL(file, maxWidth = 1280, quality = 0.85) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxWidth) {
+                            h = Math.round((h * maxWidth) / w);
+                            w = maxWidth;
+                        }
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleBulkImageUpload(event) {
+            const files = Array.from(event.target.files);
+            if (!files.length) return;
+
+            // Sort files naturally so a1.jpg, a2.jpg ... a10.jpg match in order
+            files.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+
+            let matchedCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const dataUrl = await fileToCompressedDataURL(file);
+                // Check if filename contains a1..a10
+                const nameMatch = file.name.toLowerCase().match(/a(10|[1-9])\b/);
+                let targetId = nameMatch ? `a${nameMatch[1]}` : (photosData[i] ? photosData[i].id : null);
+                if (targetId) {
+                    customPhotoMap[targetId] = dataUrl;
+                    const found = photosData.find(p => p.id === targetId);
+                    if (found) found.src = dataUrl;
+                    matchedCount++;
+                }
+            }
+
+            // Update all images on the page with data-photo-id
+            document.querySelectorAll('img[data-photo-id]').forEach(img => {
+                const pid = img.getAttribute('data-photo-id');
+                if (customPhotoMap[pid]) {
+                    img.src = customPhotoMap[pid];
+                }
+            });
+
+            renderGallery();
+
+            const statusEl = document.getElementById('syncStatusText');
+            statusEl.innerHTML = `🎉 Đã nạp thành công <strong>${matchedCount} bức ảnh kỷ niệm</strong>! Bạn có thể bấm nút <strong>"Tải file HTML đã nhúng sẵn ảnh"</strong> để lưu thành 1 file duy nhất gửi cho Thầy và bạn bè.`;
+            const exportBtn = document.getElementById('exportStandaloneBtn');
+            exportBtn.classList.remove('hidden');
+            exportBtn.classList.add('inline-flex');
+        }
+
+        async function replaceCurrentLightboxPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const dataUrl = await fileToCompressedDataURL(file);
+            const item = photosData[currentLightboxIndex];
+            customPhotoMap[item.id] = dataUrl;
+            item.src = dataUrl;
+
+            document.getElementById('lightboxImg').src = dataUrl;
+            document.querySelectorAll(`img[data-photo-id="${item.id}"]`).forEach(img => {
+                img.src = dataUrl;
+            });
+            renderGallery();
+            const exportBtn = document.getElementById('exportStandaloneBtn');
+            exportBtn.classList.remove('hidden');
+            exportBtn.classList.add('inline-flex');
+        }
+
+        function exportStandaloneHTML() {
+            const clone = document.documentElement.cloneNode(true);
+            const banner = clone.querySelector('#photoSyncBanner');
+            if (banner) banner.remove();
+            const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'blog_hanh_trinh_thuc_tinh_dam_me_ai_tron_bo.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ==========================================
+        // 4. LIGHTBOX MODAL LOGIC
+        // ==========================================
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            updateLightboxContent();
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+
+        function updateLightboxContent() {
+            const item = photosData[currentLightboxIndex];
+            const imgEl = document.getElementById('lightboxImg');
+            imgEl.src = customPhotoMap[item.id] || item.src;
+            imgEl.onerror = function() { handleImageError(this, item.id); };
+            document.getElementById('lightboxBadge').textContent = item.badge;
+            document.getElementById('lightboxTitle').textContent = item.title;
+            document.getElementById('lightboxStory').textContent = item.story;
+            document.getElementById('lightboxLesson').textContent = item.lesson;
+            document.getElementById('lightboxCounter').textContent = `Ảnh ${currentLightboxIndex + 1} / ${photosData.length} (${item.id}.jpg)`;
+        }
+
+        function navigateLightbox(step) {
+            currentLightboxIndex = (currentLightboxIndex + step + photosData.length) % photosData.length;
+            updateLightboxContent();
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // 5. BLOG ARTICLES & READER MODAL
+        // ==========================================
+        const youtubeCreations = [
+            {
+                id: 'gptKxM_SMNM',
+                badge: '🎵 Tác Phẩm Sáng Tạo AI #1',
+                title: 'Bài Hát & Video Tự Sáng Tác Bằng Cả Trái Tim (Tác phẩm 1)',
+                desc: 'Khi công nghệ AI hòa quyện cùng cảm xúc chân thành, lòng biết ơn và khát vọng sống rực rỡ ở tuổi trung niên.',
+                url: 'https://youtu.be/gptKxM_SMNM?si=eBDjFesNAUHPQSbv'
+            },
+            {
+                id: 'M3qFi4DNkrI',
+                badge: '🎬 Tác Phẩm Sáng Tạo AI #2',
+                title: 'Giai Điệu Tự Sáng Tác & Thước Phim Truyền Cảm Hứng (Tác phẩm 2)',
+                desc: 'Từ cô bé nhút nhát sợ môn Văn đến niềm hạnh phúc tự tay sáng tác ca khúc và tạo dựng video theo đúng ý muốn cùng AI.',
+                url: 'https://youtu.be/M3qFi4DNkrI'
+            },
+            {
+                id: 'Miv7yd5jSeE',
+                badge: '🌟 Tác Phẩm Sáng Tạo AI #3',
+                title: 'Khúc Ca Tri Ân & Năng Lượng Cộng Hưởng Tuyệt Vời (Tác phẩm 3)',
+                desc: 'Tác phẩm âm nhạc và hình ảnh gửi gắm tình yêu thương, sự thấu hiểu và lòng biết ơn sâu sắc tới những người Thầy và cộng đồng.',
+                url: 'https://youtu.be/Miv7yd5jSeE'
+            }
+        ];
+
+        function selectYoutubeVideo(index) {
+            const item = youtubeCreations[index];
+            if (!item) return;
+            const iframe = document.getElementById('mainYoutubeIframe');
+            if (iframe) {
+                iframe.src = `https://www.youtube.com/embed/${item.id}?rel=0&autoplay=1`;
+            }
+            document.getElementById('activeVideoBadge').textContent = item.badge;
+            document.getElementById('activeVideoTitle').textContent = item.title;
+            document.getElementById('activeVideoDesc').textContent = item.desc;
+            document.getElementById('activeVideoDirectLink').href = item.url;
+
+            // Highlight active card
+            youtubeCreations.forEach((_, idx) => {
+                const card = document.getElementById(`videoCard${idx}`);
+                if (!card) return;
+                if (idx === index) {
+                    card.className = 'cursor-pointer p-3.5 rounded-2xl bg-amber-500/20 border-2 border-amber-400 transition flex items-center gap-3.5 group';
+                } else {
+                    card.className = 'cursor-pointer p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center gap-3.5 group';
+                }
+            });
+        }
+
+        function copyZaloNumber() {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = '0982909515';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById('copyZaloBtn');
+            if (btn) {
+                const oldText = btn.textContent;
+                btn.textContent = '✓ Đã chép số!';
+                setTimeout(() => { btn.textContent = oldText; }, 2200);
+            }
+        }
+
+        function renderBlogPosts() {
+            const container = document.getElementById('blogPostsContainer');
+            container.innerHTML = blogPosts.map((post, idx) => `
+                <article onclick="openArticleModal(${idx})" class="cursor-pointer glass-card rounded-3xl p-7 sm:p-8 shadow-md hover:-translate-y-1.5 transition duration-300 flex flex-col justify-between space-y-5">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 font-bold">${post.tag}</span>
+                            <span class="text-slate-400">${post.readTime}</span>
+                        </div>
+                        <h3 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white hover:text-amber-600 transition leading-snug">
+                            ${post.title}
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            ${post.excerpt}
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
+                        <span>Đọc toàn bộ bài chia sẻ</span>
+                        <span>Đọc ngay ↗</span>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function openArticleModal(idx) {
+            const post = blogPosts[idx];
+            document.getElementById('articleModalTag').textContent = post.tag;
+            document.getElementById('articleModalTitle').textContent = post.title;
+            document.getElementById('articleModalContent').innerHTML = post.content;
+            document.getElementById('articleModal').classList.remove('hidden');
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // 6. GRATITUDE WALL (GUESTBOOK)
+        // ==========================================
+        const defaultMessages = [
+            {
+                name: 'Tác giả (Lời Tự Nhủ)',
+                text: 'Biết ơn Thầy Trần Khánh Tư, Thầy Tuấn Tử Tế và toàn thể anh chị em cộng đồng học tập tinh tấn CMA - F5 đã đồng hành, tiếp lửa để tôi tìm lại đam mê công nghệ ở tuổi trung niên!',
+                time: 'Hôm nay'
+            },
+            {
+                name: 'Một người bạn đồng môn CMA - F5',
+                text: 'Câu chuyện của chị thực sự chạm đến trái tim em! Từ một người không thích môn Văn mà giờ đây chị chia sẻ AI đầy cảm hứng và sâu sắc quá. Chúc chị mãi giữ ngọn lửa nhiệt huyết này!',
+                time: 'Cộng hưởng năng lượng'
+            }
+        ];
+
+        function loadGratitudeWall() {
+            const saved = JSON.parse(localStorage.getItem('ai_blog_gratitude_wall') || 'null') || defaultMessages;
+            const wall = document.getElementById('gratitudeWall');
+            wall.innerHTML = saved.map(item => `
+                <div class="p-5 rounded-2xl bg-white/85 dark:bg-slate-800/85 border border-amber-500/20 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-sm text-amber-700 dark:text-amber-400">✨ ${item.name}</span>
+                        <span class="text-[11px] text-slate-400">${item.time}</span>
+                    </div>
+                    <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">“${item.text}”</p>
+                </div>
+            `).join('');
+        }
+
+        function addGratitudeMessage(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('guestName');
+            const msgInput = document.getElementById('guestMessage');
+            const saved = JSON.parse(localStorage.getItem('ai_blog_gratitude_wall') || 'null') || defaultMessages;
+            saved.unshift({
+                name: nameInput.value.trim(),
+                text: msgInput.value.trim(),
+                time: 'Vừa xong'
+            });
+            localStorage.setItem('ai_blog_gratitude_wall', JSON.stringify(saved));
+            nameInput.value = '';
+            msgInput.value = '';
+            loadGratitudeWall();
+        }
+
+        // ==========================================
+        // 7. THEME, FONT SIZE & WEB AUDIO AMBIENT PIANO
+        // ==========================================
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        let currentFontScale = 1;
+        function adjustFontSize(delta) {
+            if (delta === 0) currentFontScale = 1;
+            else currentFontScale = Math.min(1.3, Math.max(0.88, currentFontScale + delta));
+            document.documentElement.style.setProperty('--font-scale', currentFontScale);
+        }
+
+        // Gentle Web Audio API Ambient Piano Synthesizer (100% self-contained)
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let musicInterval = null;
+
+        function playGentleChord(freqs) {
+            if (!audioCtx || !isMusicPlaying) return;
+            const now = audioCtx.currentTime;
+            freqs.forEach((f, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, now + idx * 0.18);
+                gain.gain.setValueAtTime(0.001, now + idx * 0.18);
+                gain.gain.exponentialRampToValueAtTime(0.035, now + idx * 0.18 + 0.4);
+                gain.gain.exponentialRampToValueAtTime(0.0008, now + idx * 0.18 + 3.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now + idx * 0.18);
+                osc.stop(now + idx * 0.18 + 3.3);
+            });
+        }
+
+        function toggleAmbientMusic() {
+            const label = document.getElementById('musicLabel');
+            const icon = document.getElementById('musicIcon');
+            if (!isMusicPlaying) {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                isMusicPlaying = true;
+                icon.textContent = '🎶';
+                if (label) label.textContent = 'Đang phát nhạc';
+                const chords = [
+                    [261.63, 329.63, 392.00, 523.25], // C major
+                    [220.00, 261.63, 329.63, 440.00], // A minor
+                    [174.61, 220.00, 261.63, 349.23], // F major
+                    [196.00, 246.94, 293.66, 392.00]  // G major
+                ];
+                let step = 0;
+                playGentleChord(chords[0]);
+                musicInterval = setInterval(() => {
+                    step = (step + 1) % chords.length;
+                    playGentleChord(chords[step]);
+                }, 3500);
+            } else {
+                isMusicPlaying = false;
+                clearInterval(musicInterval);
+                icon.textContent = '🎵';
+                if (label) label.textContent = 'Nhạc cảm hứng';
+            }
+        }
+
+        // Escape key closes modals
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeArticleModal();
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderGallery();
+            renderBlogPosts();
+            loadGratitudeWall();
+        });
+    </script>
+</body>
+</html>
